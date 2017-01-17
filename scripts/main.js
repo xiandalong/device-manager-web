@@ -9,7 +9,6 @@ function DeviceManager() {
     this.signInButton.addEventListener('click', this.signIn.bind(this));
 
     this.initFirebase();
-    // this.loadDevices();
 };
 
 DeviceManager.prototype.initFirebase = function () {
@@ -41,7 +40,6 @@ DeviceManager.MESSAGE_TEMPLATE =
 
 DeviceManager.prototype.displayDevice = function (key, modelName, manufacturerName, androidCodeName, owner) {
     var row = document.getElementById(key);
-    // If an element for that message does not exists yet we create it.
     if (!row) {
         row = document.createElement('tr');
         row.innerHTML = DeviceManager.MESSAGE_TEMPLATE;
@@ -92,7 +90,7 @@ DeviceManager.prototype.onAuthStateChanged = function (user) {
 
         this.signInButton.removeAttribute('hidden');
     }
-}
+};
 
 window.onload = function () {
     window.deviceManager = new DeviceManager();
