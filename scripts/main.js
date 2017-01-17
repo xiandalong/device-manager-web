@@ -1,7 +1,21 @@
 function DeviceManager() {
     this.deviceList = document.getElementById("device-list");
+    this.userPic = document.getElementById('user-pic');
+    this.userName = document.getElementById('user-name');
+    this.signInButton = document.getElementById('sign-in');
+    this.signOutButton = document.getElementById('sign-out');
+
+    this.signOutButton.addEventListener('click', this.signOut.bind(this));
+    this.signInButton.addEventListener('click', this.signIn.bind(this));
+
+    this.initFirebase();
+    // this.loadDevices();
+};
+
+DeviceManager.prototype.initFirebase = function () {
     this.database = firebase.database();
-    this.loadDevices();
+    this.auth = firebase.auth();
+    this.auth.onAuthStateChanged(this.onAuthStateChanged.bind(this));
 };
 
 DeviceManager.prototype.loadDevices = function () {
@@ -45,6 +59,40 @@ DeviceManager.prototype.displayDevice = function (key, modelName, manufacturerNa
     row.querySelector('.owner-name').textContent = ownerNameText;
     row.querySelector('.owner-email').textContent = ownerEmailText;
 };
+
+DeviceManager.prototype.signIn = function () {
+    var provider = new firebase.auth.GoogleAuthProvider();
+    this.auth.signInWithPopup(provider);
+};
+
+DeviceManager.prototype.signOut = function () {
+    this.auth.signOut();
+    this.deviceList.innerHTML = '';
+};
+
+DeviceManager.prototype.onAuthStateChanged = function (user) {
+    if (user) {
+        var profilePicUrl = user.photoURL;
+        var userName = user.displayName;
+
+        this.userPic.style.backgroundImage = 'url(' + profilePicUrl + ')';
+        this.userName.textContent = userName;
+
+        this.userName.removeAttribute('hidden');
+        this.userPic.removeAttribute('hidden');
+        this.signOutButton.removeAttribute('hidden');
+
+        this.signInButton.setAttribute('hidden', 'true');
+
+        this.loadDevices();
+    } else {
+        this.userName.setAttribute('hidden', 'true');
+        this.userPic.setAttribute('hidden', 'true');
+        this.signOutButton.setAttribute('hidden', 'true');
+
+        this.signInButton.removeAttribute('hidden');
+    }
+}
 
 window.onload = function () {
     window.deviceManager = new DeviceManager();
