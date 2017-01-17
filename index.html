@@ -18,7 +18,8 @@
 <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-header">
     <header class="mdl-layout__header mdl-color-text--white mdl-color--light-blue-700">
         <div class="mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-grid">
-            <div class="mdl-layout__header-row mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-cell--12-col-desktop">
+            <div id="app-title"
+                 class="mdl-layout__header-row mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-cell--12-col-desktop">
                 <h3>Intrepid Device Manager</h3>
             </div>
             <div id="user-container">
@@ -35,9 +36,9 @@
         </div>
     </header>
     <main class="mdl-layout__content mdl-color--grey-100">
-        <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+        <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp full-width">
             <thead>
-            <tr>
+            <tr class="table-column-name-text">
                 <th>Model Name</th>
                 <th>Manufacturer</th>
                 <th>Android Version</th>
