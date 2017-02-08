@@ -10,7 +10,7 @@ DeviceManager.prototype.loadDevices = function () {
 
     var setDevice = function (data) {
         var val = data.val();
-        this.displayDevice(data.key, val.modelName, val.manufacturerName, val.androidCodeName, val.owner);
+        this.displayDevice(data.key, val.modelName, val.manufacturerName, val.platform, val.versionNumber, val.owner);
     }.bind(this);
     this.devicesRef.on('child_added', setDevice);
     this.devicesRef.on('child_changed', setDevice);
@@ -20,12 +20,13 @@ DeviceManager.MESSAGE_TEMPLATE =
     '<tr class="device-container">' +
     '<th class="model-name"></th>' +
     '<th class="manufacturer-name"></th>' +
-    '<th class="android-code-name"></th>' +
+    '<th class="platform-name"></th>' +
+    '<th class="version-number"></th>' +
     '<th class="owner-name"></th>' +
     '<th class="owner-email"></th>' +
     '</tr>';
 
-DeviceManager.prototype.displayDevice = function (key, modelName, manufacturerName, androidCodeName, owner) {
+DeviceManager.prototype.displayDevice = function (key, modelName, manufacturerName, platform, versionNumber, owner) {
     var row = document.getElementById(key);
     // If an element for that message does not exists yet we create it.
     if (!row) {
@@ -36,12 +37,14 @@ DeviceManager.prototype.displayDevice = function (key, modelName, manufacturerNa
     }
     var modelNameText = modelName ? modelName : 'NA';
     var manufacturerNameText = manufacturerName ? manufacturerName : 'NA';
-    var androidCodeNameText = androidCodeName ? androidCodeName : 'NA';
+    var platformNameText = platform ? platform : 'NA';
+    var versionNumberNameText = versionNumber ? versionNumber : 'NA';
     var ownerNameText = owner ? owner.fullName : 'NA';
     var ownerEmailText = owner ? owner.email : 'NA';
     row.querySelector('.model-name').textContent = modelNameText;
     row.querySelector('.manufacturer-name').textContent = manufacturerNameText;
-    row.querySelector('.android-code-name').textContent = androidCodeNameText;
+    row.querySelector('.platform-name').textContent = platformNameText;
+    row.querySelector('.version-number').textContent = versionNumberNameText;
     row.querySelector('.owner-name').textContent = ownerNameText;
     row.querySelector('.owner-email').textContent = ownerEmailText;
 };
